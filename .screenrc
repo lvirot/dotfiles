@@ -1,0 +1,44 @@
+autodetach on
+startup_message off
+defscrollback 100000
+ignorecase on
+shell $SHELL
+altscreen off
+#caption splitonly '%{= KK} '
+hardstatus on
+hardstatus alwayslastline '%{= kK}[%c:%s %{.g}%1`%{-}@%{.y}%H%{-}] [%-Lw%{=b Kc}%n%f*%t %{-}%+Lw]%=[%l - %d/%m/%y]'
+backtick 1 0 0 echo $LOGNAME
+term xterm-256color
+
+bindkey -k k1 eval "screen -tBIB-P-1-BOR 1 telnet 127.0.0.1 10001" "screen -tBIB-P-1-LIL 2 telnet 127.0.0.1 10002" "screen -tBIB-P-1-LYO 3 telnet 127.0.0.1 10003" "screen -tBIB-P-1-MAR 4 telnet 127.0.0.1 10004" "screen -tBIB-P-1-NAN 5 telnet 127.0.0.1 10005" "screen -tBIB-P-1-PAR 6 telnet 127.0.0.1 10006"
+bindkey -k k2 eval "screen -tBIB-PE-1-BOR 1 telnet 127.0.0.1 10007" "screen -tBIB-PE-1-LIL 2 telnet 127.0.0.1 10008" "screen -tBIB-PE-1-LYO 3 telnet 127.0.0.1 10009" "screen -tBIB-PE-1-MAR 4 telnet 127.0.0.1 10010" "screen -tBIB-PE-1-NAN 5 telnet 127.0.0.1 10011" "screen -tBIB-PE-1-PAR 6 telnet 127.0.0.1 10012"
+bindkey -k k3 eval "screen -tCPT-P-1-BOR 1 telnet 127.0.0.1 10017" "screen -tCPT-P-1-LIL 2 telnet 127.0.0.1 10018" "screen -tCPT-P-1-LYO 3 telnet 127.0.0.1 10019" "screen -tCPT-P-1-MAR 4 telnet 127.0.0.1 10020" "screen -tCPT-P-1-NAN 5 telnet 127.0.0.1 10021" "screen -tCPT-P-1-PAR 6 telnet 127.0.0.1 10022"
+bindkey -k k4 eval "screen -tCPT-PE-1-BOR 1 telnet 127.0.0.1 10023" "screen -tCPT-PE-1-LIL 2 telnet 127.0.0.1 10024" "screen -tCPT-PE-1-LYO 3 telnet 127.0.0.1 10025" "screen -tCPT-PE-1-MAR 4 telnet 127.0.0.1 10026" "screen -tCPT-PE-1-NAN 5 telnet 127.0.0.1 10027" "screen -tCPT-PE-1-PAR 6 telnet 127.0.0.1 10028"
+bindkey -k k5 eval "screen -tBIB-RR-1-LYO 1 telnet 127.0.0.1 10013" "screen -tBIB-RR-1-PAR 2 telnet 127.0.0.1 10014" "screen -tBIB-RR-2-LYO 3 telnet 127.0.0.1 10015" "screen -tBIB-RR-2-PAR 4 telnet 127.0.0.1 10016" "screen -tCPT-RR-1-PAR 5 telnet 127.0.0.1 10029" "screen -tCPT-RR-2-PAR 6 telnet 127.0.0.1 10030"
+#bindkey -k k2 screen -t console9600 /dev/tty.PL2303-000012FD 9600
+#bindkey -k k3 screen -t console9600 /dev/tty.usbserial-FTFDLS52 9600
+#bindkey -k k4 screen -t console115200 /dev/tty.usbserial-FTFDLS52 115200
+#bindkey -k k5 eval "screen -tPE-1-CMPL 1 telnet VIRL_CMPL 62801" "screen -tPE-2-CMPL 2 telnet VIRL_CMPL 62901" "screen -tPE-3-CMPL 3 telnet VIRL_CMPL 63401" "screen -tP-1-CMPL  4 telnet VIRL_CMPL 62701" "screen -tPE-1-SFR  5 telnet VIRL_CMPL 63001" "screen -tPE-2-SFR  6 telnet VIRL_CMPL 63101" "screen -tPE-3-SFR  7 telnet VIRL_CMPL 63301" "screen -tP-1-SFR   8 telnet VIRL_CMPL 63201"
+bindkey -k k6 eval "screen -tDC6_AGG1 1 ssh DC6" "screen -tDC6_AGG2 2 ssh DC6" "screen -tDC7_AGG1 3 ssh DC7" "screen -tDC7_AGG2 4 ssh DC7"
+bindkey -k k7 eval "screen -tS5 1 telnet sweet-brew-6 17491" "screen -tS6 2 telnet sweet-brew-6 17492" "screen -tS50 3 telnet sweet-brew-6 17493" "screen -tS51 4 telnet sweet-brew-6 17494" "screen -tVPN-1 5 telnet sweet-brew-6 17495" "screen -tVPN-2 6 telnet sweet-brew-6 17496"
+bindkey -k k8 eval "screen -tN7K-1-1 0 ssh NSP_N7K" "screen -tN7K-1-2 ssh NSP_N7K-1-2" "screen -tN7K-1-3 ssh NSP_N7K-1-3" "screen -tN7K-1-4 ssh NSP_N7K-1-4" "screen -tN7K-1-5 ssh NSP_N7K-1-5" "screen -tN5KP ssh NSP_N5KP" "screen -tN5KUP ssh NSP_N5KUP"
+
+
+bind ) select 10
+bind ! select 11
+bind @ select 12
+bind \# select 13
+bind \$ select 14
+bind % select 15
+bind \^ select 16
+bind & select 17
+bind * select 18
+bind ( select 19
+
+bind \\ quit
+bind K kill
+bind } history
+bind V split -v
+
+termcapinfo xterm-256color|xterm-color|xterm|xterms|xs|rxvt ti@:te@
+defutf8 on
