@@ -43,6 +43,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias mtr='sudo mtr'
+alias pg='ping 8.8.8.8'
 
 NONE="\[\e[0m\]"    # unsets color to term's fg color
 R="\[\e[0;31m\]"    # red
