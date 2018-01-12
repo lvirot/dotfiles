@@ -1,19 +1,22 @@
 set nocompatible
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-  Plugin 'VundleVim/Vundle.vim'
-  Plugin 'tmhedberg/SimpylFold'
-  Plugin 'vim-syntastic/syntastic'
-  Plugin 'jnurmine/Zenburn'
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'majutsushi/tagbar'
-  Bundle 'scrooloose/nerdtree'
-  Bundle 'Valloric/YouCompleteMe'
-call vundle#end()
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if filereadable(vundle_readme) 
+  filetype off
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'tmhedberg/SimpylFold'
+    Plugin 'vim-syntastic/syntastic'
+    Plugin 'jnurmine/Zenburn'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'majutsushi/tagbar'
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'Valloric/YouCompleteMe'
+  call vundle#end()
+endif
 filetype plugin indent on
 
 syntax on
