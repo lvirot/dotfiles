@@ -1,6 +1,6 @@
 set nocompatible
 
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
 if filereadable(vundle_readme) 
   filetype off
   set rtp+=~/.vim/bundle/Vundle.vim
