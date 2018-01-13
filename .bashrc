@@ -2,6 +2,8 @@
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion
+elif [ -f /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
 fi
 
 if [ ! -d ~/.vim/bkp ] || [ ! -d ~/.vim/tmp ]; then
@@ -18,15 +20,23 @@ HISTSIZE=5000
 
 shopt -s histappend
 shopt -s checkwinsize
+shopt -s autocd
 shopt -s cdspell
+shopt -s dirspell
 shopt -s cmdhist
 shopt -s dotglob
 shopt -s nocaseglob
 
+ls --color > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+	alias ls="ls --color"
+else
+	alias ls="ls -G"
+fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias l='ls -AGlhp'
+alias l='ls -Alhp'
 alias ll='l -rt'
 alias h='history'
 alias cp='cp -i'
@@ -44,6 +54,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias mtr='sudo mtr'
 alias pg='ping 8.8.8.8'
+alias refresh='source ~/.bashrc'
 
 NONE="\[\e[0m\]"    # unsets color to term's fg color
 R="\[\e[0;31m\]"    # red
