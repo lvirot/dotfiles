@@ -11,7 +11,7 @@ if [ ! -d ~/.vim/bkp ] || [ ! -d ~/.vim/tmp ]; then
 fi
 
 if [ -f ~/.bashrc.nso ]; then
-  . .bashrc.nso
+  . ~/.bashrc.nso
 fi
 
 HISTCONTROL=ignoreboth:erasedups
