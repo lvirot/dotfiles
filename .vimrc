@@ -15,6 +15,7 @@ if filereadable(vundle_readme)
     Plugin 'majutsushi/tagbar'
     Bundle 'scrooloose/nerdtree'
     Bundle 'Valloric/YouCompleteMe'
+    Bundle 'nathanalderson/yang.vim'
   call vundle#end()
 endif
 filetype plugin indent on
