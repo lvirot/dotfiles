@@ -1,7 +1,7 @@
 set nocompatible
 
 let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if filereadable(vundle_readme) 
+if filereadable(vundle_readme)
   filetype off
   set rtp+=~/.vim/bundle/Vundle.vim
   call vundle#begin()
@@ -13,6 +13,8 @@ if filereadable(vundle_readme)
     Plugin 'tpope/vim-fugitive'
     Plugin 'ctrlpvim/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
+    Plugin 'flazz/vim-colorschemes'
+    Plugin 'ayu-theme/ayu-vim'
     Bundle 'scrooloose/nerdtree'
     Bundle 'Valloric/YouCompleteMe'
     Bundle 'nathanalderson/yang.vim'
@@ -21,9 +23,11 @@ endif
 filetype plugin indent on
 
 syntax on
-if match(&runtimepath, 'Zenburn') != -1
-  colorscheme zenburn
-endif
+"if match(&runtimepath, 'Zenburn') != -1
+"  colorscheme zenburn
+"endif
+colorscheme dracula
+
 
 
 set title
@@ -36,7 +40,7 @@ set showcmd                         "In visual mode, show number of selected cha
 set laststatus=2                    "shows: 0:never, 1:only if at least two windows, 2:always
 
 set hlsearch                        "When there is a previous search pattern, highlight all its matches.
-set incsearch                       "While typing a search command, show where the pattern, as it was typed so far, matches. 
+set incsearch                       "While typing a search command, show where the pattern, as it was typed so far, matches.
 set ignorecase                      "Ignore case in search patterns.
 set smartcase                       "Override the 'ignorecase' option if the search pattern contains upper case characters.
 
@@ -59,7 +63,6 @@ set autoread                        "auto read when file is changed from the out
 set backup                          "Make a backup before overwriting a file.
 set backupdir=~/.vim/bkp            "Directory for the backup file
 set directory=~/.vim/tmp            "Directory to place swap files in
-
 
 " Default settings
 "set background=dark                 "Colorset for dark background
@@ -84,6 +87,21 @@ nmap <Leader>v :e $MYVIMRC<CR>
 " Enable folding with spacebar
 nnoremap <space> za
 nmap <F5> <Esc>:w<CR>:clear;!python3  %<CR>
+
+
+nnoremap <Leader>q :bp<CR>
+nnoremap <Leader>w :bn<CR>
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+
 
 if has("autocmd")
   " When editing a file, always jump to the last cursor position

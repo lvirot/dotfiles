@@ -55,6 +55,7 @@ alias ....='cd ../../..'
 alias mtr='sudo mtr'
 alias pg='ping 8.8.8.8'
 alias refresh='source ~/.bashrc'
+alias eagle-eye='docker run -i -t -p 8080:8080 containers.cisco.com/adt_emear/epn-eagle-eye'
 
 NONE="\[\e[0m\]"    # unsets color to term's fg color
 R="\[\e[0;31m\]"    # red
