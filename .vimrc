@@ -8,13 +8,13 @@ if filereadable(vundle_readme)
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'tmhedberg/SimpylFold'
     Plugin 'vim-syntastic/syntastic'
-    Plugin 'jnurmine/Zenburn'
     Plugin 'vim-airline/vim-airline'
     Plugin 'tpope/vim-fugitive'
     Plugin 'ctrlpvim/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'flazz/vim-colorschemes'
-    Plugin 'ayu-theme/ayu-vim'
+    Plugin 'xolox/vim-colorscheme-switcher'
+    Plugin 'xolox/vim-misc'
     Bundle 'scrooloose/nerdtree'
     Bundle 'Valloric/YouCompleteMe'
     Bundle 'nathanalderson/yang.vim'
@@ -26,7 +26,7 @@ syntax on
 "if match(&runtimepath, 'Zenburn') != -1
 "  colorscheme zenburn
 "endif
-colorscheme dracula
+colorscheme zenburn
 
 
 
@@ -72,8 +72,8 @@ set directory=~/.vim/tmp            "Directory to place swap files in
 "set nolist                          "Shows tabs, end of line and trailing spaces.
 "set noruler                         "Show the line and column number of the cursor position
 "set wildmode=full                   "complete with next full match ben <tab> is pressed in wildmenu
-"set ttyfast                         "Improves smoothness of redrawing when there are multiple windows
-"set lazyredraw
+set ttyfast                         "Improves smoothness of redrawing when there are multiple windows
+set lazyredraw
 "set fileformats=unix,dos,mac
 "set encoding=utf-8
 
@@ -108,7 +108,7 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   "When vimrc is edited, reload it
-  au! BufWritePost vimrc.new source ~/vimrc.new
+  au! BufWritePost .vimrc source ~/.vimrc
 
   " Python, PEP-008
   highlight BadWhitespace ctermbg=red guibg=red
