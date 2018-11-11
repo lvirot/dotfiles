@@ -1,34 +1,32 @@
 set nocompatible
 
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if filereadable(vundle_readme)
+if filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
   filetype off
   set rtp+=~/.vim/bundle/Vundle.vim
   call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'tmhedberg/SimpylFold'
-    Plugin 'vim-syntastic/syntastic'
+    Plugin 'w0rp/ale'
     Plugin 'vim-airline/vim-airline'
     Plugin 'tpope/vim-fugitive'
     Plugin 'ctrlpvim/ctrlp.vim'
     Plugin 'majutsushi/tagbar'
     Plugin 'flazz/vim-colorschemes'
-    Plugin 'xolox/vim-colorscheme-switcher'
-    Plugin 'xolox/vim-misc'
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'Valloric/YouCompleteMe'
-    Bundle 'nathanalderson/yang.vim'
+    Plugin 'jiangmiao/auto-pairs'
+"    Plugin 'scrooloose/nerdtree'
+    Plugin 'nathanalderson/yang.vim'
+    Plugin 'maralla/completor.vim'
+"    Plugin 'davidhalter/jedi-vim'
+"    Plugin 'vim-syntastic/syntastic'
+"    Plugin 'xolox/vim-colorscheme-switcher'
+"    Plugin 'xolox/vim-misc'
+"    Plugin 'Valloric/YouCompleteMe'
   call vundle#end()
 endif
 filetype plugin indent on
 
 syntax on
-"if match(&runtimepath, 'Zenburn') != -1
-"  colorscheme zenburn
-"endif
-colorscheme zenburn
-
-
+colorscheme summerfruit256
 
 set title
 set scrolloff=10
@@ -38,17 +36,14 @@ set listchars=tab:>-,trail:·,eol:$  "String to display 'list'
 set wildmenu                        "permit completion and show possible match in command mode
 set showcmd                         "In visual mode, show number of selected characters/line
 set laststatus=2                    "shows: 0:never, 1:only if at least two windows, 2:always
-
 set hlsearch                        "When there is a previous search pattern, highlight all its matches.
 set incsearch                       "While typing a search command, show where the pattern, as it was typed so far, matches.
 set ignorecase                      "Ignore case in search patterns.
 set smartcase                       "Override the 'ignorecase' option if the search pattern contains upper case characters.
-
 set mouse=a                         "Enable the use of the mouse. a=enabled for all modes
 set pastetoggle=<F10>               "enable paste mode, everything inserted literally
 set clipboard^=unnamed
 set backspace=indent,eol,start      "Allow backspacing over everything in insert mode
-
 set autoindent                      "Copy indent from current line when starting a new line
 set smartindent                     "Do smart autoindenting when starting a new line.
 set expandtab                       "In Insert mode: Use the appropriate number of spaces to insert a <Tab>.
@@ -58,11 +53,12 @@ set softtabstop=2                   "Number of spaces that a <Tab> counts for wh
 set foldmethod=indent
 set foldlevel=99
 set showmatch                       "When a bracket is inserted, briefly jump to the matching one.
-
 set autoread                        "auto read when file is changed from the outside
 set backup                          "Make a backup before overwriting a file.
 set backupdir=~/.vim/bkp            "Directory for the backup file
 set directory=~/.vim/tmp            "Directory to place swap files in
+set ttyfast                         "Improves smoothness of redrawing when there are multiple windows
+set lazyredraw
 
 " Default settings
 "set background=dark                 "Colorset for dark background
@@ -72,43 +68,45 @@ set directory=~/.vim/tmp            "Directory to place swap files in
 "set nolist                          "Shows tabs, end of line and trailing spaces.
 "set noruler                         "Show the line and column number of the cursor position
 "set wildmode=full                   "complete with next full match ben <tab> is pressed in wildmenu
-set ttyfast                         "Improves smoothness of redrawing when there are multiple windows
-set lazyredraw
 "set fileformats=unix,dos,mac
 "set encoding=utf-8
 
-let mapleader = ","
-",n : toogle line numbers
-nmap <silent> <leader>n :set number!<CR>
-",s : toogle show all chars
-nmap <silent> <leader>s :set list!<CR>
-",v : edit vimrc
-nmap <Leader>v :e $MYVIMRC<CR>
-" Enable folding with spacebar
-nnoremap <space> za
-nmap <F5> <Esc>:w<CR>:clear;!python3  %<CR>
-
-
-nnoremap <Leader>q :bp<CR>
-nnoremap <Leader>w :bn<CR>
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
+let mapleader = "\<space>"
+let maplocalleader="\<space>"
+nnoremap <silent> <leader>n :set number!<CR>
+nnoremap <silent> <leader>s :set list!<CR>
+nnoremap <leader>v :e $MYVIMRC<CR>
+nnoremap <leader><space> za
+nnoremap <F5> <Esc>:w<CR>:clear;!python3  %<CR>
+nnoremap <leader>q :bp<CR>
+nnoremap <leader>w :bn<CR>
+nnoremap <leader>1 :1b<CR>
+nnoremap <leader>2 :2b<CR>
+nnoremap <leader>3 :3b<CR>
+nnoremap <leader>4 :4b<CR>
+nnoremap <leader>5 :5b<CR>
+nnoremap <leader>6 :6b<CR>
+nnoremap <leader>7 :7b<CR>
+nnoremap <leader>8 :8b<CR>
+nnoremap <leader>9 :9b<CR>
+nnoremap <leader>0 :10b<CR>
 
 
 if has("autocmd")
   " When editing a file, always jump to the last cursor position
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-  "When vimrc is edited, reload it
-  au! BufWritePost .vimrc source ~/.vimrc
+  augroup refreshVimRc
+    au!
+    au BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
+    au BufWritePost $MYVIMRC AirlineRefresh
+  augroup end
+
+  augroup myCursorLine
+    au!
+    au InsertEnter * set cursorline
+    au InsertLeave * set nocursorline
+  augroup end
 
   " Python, PEP-008
   highlight BadWhitespace ctermbg=red guibg=red
@@ -117,27 +115,18 @@ if has("autocmd")
   au BufRead,BufNewFile *.py,*.pyw set softtabstop=4
   au BufRead,BufNewFile *.py,*.pyw set shiftwidth=4
   au         BufNewFile *.py,*.pyw set fileformat=unix
-  au BufRead,BufNewFile *.py,*.pyw let b:comment_leader = '#'
   au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
   au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /\s\+$/
+  au BufRead,BufNewFile *.py,*.pyw let b:comment_leader='#'
   au BufRead,BufNewFile *.py,*.pyw let python_highlight_all=1
+  au BufRead,BufNewFile *.py,*.pyw set colorcolumn=80
+  au FileType python nnoremap <LocalLeader>= :ALEFix<CR>
 endif
 
-"augroup numbertoggle
-"  au!
-"  au BufEnter,FocusGained,InsertLeave * set norelativenumber
-"  au BufLeave,FocusLost,InsertEnter   * set relativenumber
-"augroup end
-augroup myCursorLine
-  au!
-  au InsertEnter * set cursorline
-  au InsertLeave * set nocursorline
-augroup end
-
-if match(&runtimepath, 'vim-airline') != -1
+if &runtimepath =~'vim-airline'
   let g:airline#extensions#tabline#enabled = 1
+  "let g:airline#extensions#ale#enabled = 1
   let g:airline_powerline_fonts = 1
-" let g:airline_extensions = ['tabline']
 else
   set statusline=%n\                  "buffer number
   set statusline+=%F\                 "full path
@@ -152,8 +141,11 @@ else
   set statusline+=0x%02B\             "character under cursor
 endif
 
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 
-if match(&runtimepath, 'syntastic') != -1
+if &runtimepath =~ 'syntastic'
   let g:syntastic_mode_map = { 'mode': 'passive' }
   let g:syntastic_python_checkers=['flake8', 'python3']
   let g:syntastic_always_populate_loc_list = 1
@@ -162,22 +154,40 @@ if match(&runtimepath, 'syntastic') != -1
   let g:syntastic_check_on_wq = 1
   let g:syntastic_loc_list_height=3
   "let g:syntastic_python_flake8_args='--ignore=E501'
-  nmap <Leader>c :SyntasticToggleMode<CR>
+  nnoremap <Leader>c :SyntasticToggleMode<CR>
 endif
 
-if match(&runtimepath, 'nerdtree') != -1
+if &runtimepath =~ 'ale'
+  let b:ale_fixers = {'python': ['yapf']}
+  let g:ale_python_flake8_options = '--ignore=E125,E305'
+  let g:ale_sign_error = '•'
+  let g:ale_sign_warning = '--'
+  let g:ale_echo_msg_error_str = 'E'
+  let g:ale_echo_msg_warning_str = 'W'
+  "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+endif
+
+if &runtimepath =~ 'nerdtree'
   let NERDTreeMinimalUI = 1
-"  au vimenter * NERDTree
-"  au vimEnter * wincmd p
   au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  nnoremap <Leader>f :NERDTreeToggle<Enter>
+  nnoremap <Leader>f :NERDTreeToggle<CR>
+else
+  let g:netrw_banner = 0
+  let g:netrw_liststyle = 3
+  let g:netrw_browse_split = 4
+  "let g:netrw_altv = 1
+  let g:netrw_winsize = 15
+  nnoremap <Leader>f :Lexplore<CR>
+  autocmd FileType netrw nnoremap q :bd<CR>
 endif
 
-if match(&runtimepath, 'tagbar') != -1
-  nnoremap <Leader>t :TagbarToggle<Enter>
+if &runtimepath =~ 'tagbar'
+  nnoremap <Leader>t :TagbarToggle<CR>
 endif
 
-if match(&runtimepath, 'YouCompleteMe') != -1
-  map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-  let g:ycm_autoclose_preview_window_after_completion=1
+if &runtimepath =~ 'YouCompleteMe'
+  nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+  let g:ycm_autoclose_preview_window_after_completion = 1
 endif
+
+
