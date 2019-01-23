@@ -75,3 +75,14 @@ esac
 export PAGER=most
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export AXIS2_HOME="/Users/lvirot/Downloads/axis2-1.7.9"
+export PATH="$AXIS2_HOME/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+
+alias netsim-rekey='find . -path *rsa_key -delete -exec ssh-keygen -t rsa -N "" -m PEM -f {} \;'

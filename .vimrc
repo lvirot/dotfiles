@@ -1,193 +1,121 @@
 set nocompatible
 
-if filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
-  filetype off
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
-    Plugin 'VundleVim/Vundle.vim'
-    Plugin 'tmhedberg/SimpylFold'
-    Plugin 'w0rp/ale'
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'ctrlpvim/ctrlp.vim'
-    Plugin 'majutsushi/tagbar'
-    Plugin 'flazz/vim-colorschemes'
-    Plugin 'jiangmiao/auto-pairs'
-"    Plugin 'scrooloose/nerdtree'
-    Plugin 'nathanalderson/yang.vim'
-    Plugin 'maralla/completor.vim'
-"    Plugin 'davidhalter/jedi-vim'
-"    Plugin 'vim-syntastic/syntastic'
-"    Plugin 'xolox/vim-colorscheme-switcher'
-"    Plugin 'xolox/vim-misc'
-"    Plugin 'Valloric/YouCompleteMe'
-  call vundle#end()
+if !empty(glob("~/.vim/autoload/plug.vim"))
+  call plug#begin('~/.vim/plugged')
+    Plug 'w0rp/ale'
+    Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'critiqjo/vim-bufferline'
+    Plug 'itchyny/lightline.vim'
+    Plug 'tpope/vim-fugitive'
+    Plug '/usr/local/opt/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'tmhedberg/SimpylFold'
+    Plug 'flazz/vim-colorschemes'
+    Plug 'maralla/completor.vim'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'nathanalderson/yang.vim', { 'for': 'yang' }
+    Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle' }
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'will133/vim-dirdiff'
+  call plug#end()
 endif
+
 filetype plugin indent on
 
 syntax on
-colorscheme summerfruit256
+silent! colorscheme elflord
+silent! colorscheme summerfruit256
+
+if !isdirectory("$HOME.'/.vim/tmp'") | silent! call mkdir ($HOME.'/.vim/tmp', 'p') | endif
+if !isdirectory("$HOME.'/.vim/bkp'") | silent! call mkdir ($HOME.'/.vim/bkp', 'p') | endif
+if !isdirectory("$HOME.'/.vim/undo'") | silent! call mkdir ($HOME.'/.vim/undo', 'p') | endif
+
+set autoindent                      "Copy indent from current line when starting a new line
+set autoread                        "auto read when file is changed from the outside
+set backspace=indent,eol,start      "Allow backspacing over everything in insert mode
+set backupdir=~/.vim/bkp
+set directory=~/.vim/tmp            "Directory to place swap files in
+set encoding=utf-8
+set hlsearch                        "When there is a previous search pattern, highlight all its matches.
+set incsearch                       "While typing a search command, show where the pattern, as it was typed so far, matches.
+set laststatus=2                    "shows: 0:never, 1:only if at least two windows, 2:always
+set showcmd                         "In visual mode, show number of selected characters/line
+set fileencoding=utf-8
+set undodir=~/.vim/undo
+set wildmenu                        "permit completion and show possible match in command mode
 
 set title
 set scrolloff=10
 set number                          "Print the line number in front of each line.
-set nowrap                          "When on, lines longer than the width of the window will wrap and displaying continues on the next line.
 set listchars=tab:>-,trail:·,eol:$  "String to display 'list'
-set wildmenu                        "permit completion and show possible match in command mode
-set showcmd                         "In visual mode, show number of selected characters/line
-set laststatus=2                    "shows: 0:never, 1:only if at least two windows, 2:always
-set hlsearch                        "When there is a previous search pattern, highlight all its matches.
-set incsearch                       "While typing a search command, show where the pattern, as it was typed so far, matches.
 set ignorecase                      "Ignore case in search patterns.
-set smartcase                       "Override the 'ignorecase' option if the search pattern contains upper case characters.
+set smartcase                       "Override the 'ignorecase' when  search contains upper case.
 set mouse=a                         "Enable the use of the mouse. a=enabled for all modes
 set pastetoggle=<F10>               "enable paste mode, everything inserted literally
 set clipboard^=unnamed
-set backspace=indent,eol,start      "Allow backspacing over everything in insert mode
-set autoindent                      "Copy indent from current line when starting a new line
 set smartindent                     "Do smart autoindenting when starting a new line.
-set expandtab                       "In Insert mode: Use the appropriate number of spaces to insert a <Tab>.
+set expandtab                       "In Insert mode: Replace <Tab> per space.
 set shiftwidth=2                    "Number of spaces to use for each step of (auto)indent.
 set tabstop=2                       "Number of spaces that a <Tab> in the file counts for.
 set softtabstop=2                   "Number of spaces that a <Tab> counts for while performing editing operations, like inserting a <Tab> or using <BS>.
 set foldmethod=indent
 set foldlevel=99
 set showmatch                       "When a bracket is inserted, briefly jump to the matching one.
-set autoread                        "auto read when file is changed from the outside
+set formatoptions+=ro               "Add comment_leader when o/O on normal and Enter on insert
+set hidden                          "Make possible to change buffer without saving current
+set showtabline=2
 set backup                          "Make a backup before overwriting a file.
-set backupdir=~/.vim/bkp            "Directory for the backup file
-set directory=~/.vim/tmp            "Directory to place swap files in
-set ttyfast                         "Improves smoothness of redrawing when there are multiple windows
-set lazyredraw
+set undofile
+set wildmode=longest:list,full
+if &runtimepath !~'lightline' | set statusline=\ %n\ %F\ %m\ %r\ [%{&ff}]\ %y\ %=%5l/%L\ (%p%\%)\ %4v\ 0x%02B\ | endif
 
-" Default settings
-"set background=dark                 "Colorset for dark background
-"set nocursorline                    "Highlight the screen line of the cursor with CursorLine
-"set nocursorcolumn                  "Highlight the screen column of the cursor with CursorColumn
-"set cmdheight=1                     "Number of screen lines to use for the command-line
-"set nolist                          "Shows tabs, end of line and trailing spaces.
-"set noruler                         "Show the line and column number of the cursor position
-"set wildmode=full                   "complete with next full match ben <tab> is pressed in wildmenu
-"set fileformats=unix,dos,mac
-"set encoding=utf-8
 
 let mapleader = "\<space>"
-let maplocalleader="\<space>"
-nnoremap <silent> <leader>n :set number!<CR>
-nnoremap <silent> <leader>s :set list!<CR>
-nnoremap <leader>v :e $MYVIMRC<CR>
-nnoremap <leader><space> za
-nnoremap <F5> <Esc>:w<CR>:clear;!python3  %<CR>
-nnoremap <leader>q :bp<CR>
-nnoremap <leader>w :bn<CR>
-nnoremap <leader>1 :1b<CR>
-nnoremap <leader>2 :2b<CR>
-nnoremap <leader>3 :3b<CR>
-nnoremap <leader>4 :4b<CR>
-nnoremap <leader>5 :5b<CR>
-nnoremap <leader>6 :6b<CR>
-nnoremap <leader>7 :7b<CR>
-nnoremap <leader>8 :8b<CR>
-nnoremap <leader>9 :9b<CR>
-nnoremap <leader>0 :10b<CR>
-
-
-if has("autocmd")
-  " When editing a file, always jump to the last cursor position
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-  augroup refreshVimRc
-    au!
-    au BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
-    au BufWritePost $MYVIMRC AirlineRefresh
-  augroup end
-
-  augroup myCursorLine
-    au!
-    au InsertEnter * set cursorline
-    au InsertLeave * set nocursorline
-  augroup end
-
-  " Python, PEP-008
-  highlight BadWhitespace ctermbg=red guibg=red
-  au BufRead,BufNewFile *.py,*.pyw set textwidth=79
-  au BufRead,BufNewFile *.py,*.pyw set tabstop=4
-  au BufRead,BufNewFile *.py,*.pyw set softtabstop=4
-  au BufRead,BufNewFile *.py,*.pyw set shiftwidth=4
-  au         BufNewFile *.py,*.pyw set fileformat=unix
-  au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-  au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /\s\+$/
-  au BufRead,BufNewFile *.py,*.pyw let b:comment_leader='#'
-  au BufRead,BufNewFile *.py,*.pyw let python_highlight_all=1
-  au BufRead,BufNewFile *.py,*.pyw set colorcolumn=80
-  au FileType python nnoremap <LocalLeader>= :ALEFix<CR>
-endif
-
-if &runtimepath =~'vim-airline'
-  let g:airline#extensions#tabline#enabled = 1
-  "let g:airline#extensions#ale#enabled = 1
-  let g:airline_powerline_fonts = 1
-else
-  set statusline=%n\                  "buffer number
-  set statusline+=%F\                 "full path
-  set statusline+=%m                  "modified flag
-  set statusline+=%r                  "Readonly flag
-  set statusline+=[%{&ff}]            "file format
-  set statusline+=%y\                 "file type
-  set statusline+=%=%5l               "current line
-  set statusline+=/%L\                "total lines
-  set statusline+=(%p%%)\             "percentage
-  set statusline+=%4v\                "virtual column number
-  set statusline+=0x%02B\             "character under cursor
-endif
-
+nnoremap <silent><leader>n :set number!<cr>
+nnoremap <silent><leader>s :set list!<cr>
+nnoremap <silent><leader>v :vsplit $MYVIMRC<cr>
+nnoremap <silent><leader>t :TagbarToggle<cr>
+nnoremap <silent><leader>f :NERDTreeToggle<cr>
+nnoremap <silent><leader>F :Lexplore<cr>
+nnoremap <silent><leader>= :ALEFix<cr>
+nnoremap <silent><leader><space> za
+nnoremap <silent>1 :1b<CR>
+nnoremap <silent>2 :2b<CR>
+nnoremap <silent>3 :3b<CR>
+nnoremap <silent>4 :4b<CR>
+nnoremap <silent>5 :5b<CR>
+nnoremap <silent>6 :6b<CR>
+nnoremap <silent>7 :7b<CR>
+nnoremap <silent>8 :8b<CR>
+nnoremap <silent>9 :9b<CR>
+nnoremap <silent>q :bd<cr>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 
-if &runtimepath =~ 'syntastic'
-  let g:syntastic_mode_map = { 'mode': 'passive' }
-  let g:syntastic_python_checkers=['flake8', 'python3']
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_check_on_wq = 1
-  let g:syntastic_loc_list_height=3
-  "let g:syntastic_python_flake8_args='--ignore=E501'
-  nnoremap <Leader>c :SyntasticToggleMode<CR>
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  au BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  au InsertEnter * set cursorline
+  au InsertLeave * set nocursorline
+  au FileType python set textwidth=79
+  au FileType python set colorcolumn=80
 endif
 
-if &runtimepath =~ 'ale'
-  let b:ale_fixers = {'python': ['yapf']}
-  let g:ale_python_flake8_options = '--ignore=E125,E305'
-  let g:ale_sign_error = '•'
-  let g:ale_sign_warning = '--'
-  let g:ale_echo_msg_error_str = 'E'
-  let g:ale_echo_msg_warning_str = 'W'
-  "let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-endif
-
-if &runtimepath =~ 'nerdtree'
-  let NERDTreeMinimalUI = 1
-  au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-  nnoremap <Leader>f :NERDTreeToggle<CR>
-else
-  let g:netrw_banner = 0
-  let g:netrw_liststyle = 3
-  let g:netrw_browse_split = 4
-  "let g:netrw_altv = 1
-  let g:netrw_winsize = 15
-  nnoremap <Leader>f :Lexplore<CR>
-  autocmd FileType netrw nnoremap q :bd<CR>
-endif
-
-if &runtimepath =~ 'tagbar'
-  nnoremap <Leader>t :TagbarToggle<CR>
-endif
-
-if &runtimepath =~ 'YouCompleteMe'
-  nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-  let g:ycm_autoclose_preview_window_after_completion = 1
-endif
-
-
+let g:python_highlight_all = 1
+let b:ale_fixers = {'python': ['yapf']}
+let g:ale_python_flake8_options = '--ignore=E125,E305'
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 15
+let g:NERDTreeMinimalUI = 1
+let g:bufferline_active_buffer_left = ''
+let g:bufferline_active_buffer_right = ''
+let g:lightline = { 'tab' : {'active': ['tabnum'], 'inactive': ['tabnum']}}
+let g:lightline.active = {'left': [['mode', 'paste'], ['gitbranch', 'readonly', 'filename', 'modified']]}
+let g:lightline.tabline = {'left': [['tabs'], ['bufferline']]}
+if &runtimepath =~ 'bufferline' | let g:lightline.component = {'lineinfo': '%l/%L  : %-2v', 'bufferline': '%{bufferline#refresh_status()}'.bufferline#get_status_string('TabLineSel', 'LightLineLeft_tabline_tabsel_1')} | endif
+let g:lightline.component_function = {'gitbranch': 'fugitive#head',}
+let g:lightline.separator = {'left': '', 'right': '' }
+let g:lightline.subseparator = {'left': '', 'right': ''}
