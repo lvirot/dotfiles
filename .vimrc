@@ -17,14 +17,18 @@ if !empty(glob("~/.vim/autoload/plug.vim"))
     Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle' }
     Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'will133/vim-dirdiff'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'terryma/vim-multiple-cursors'
   call plug#end()
 endif
 
 filetype plugin indent on
 
 syntax on
-silent! colorscheme elflord
-silent! colorscheme summerfruit256
+set background=light
+silent! colorscheme PaperColor
+"silent! colorscheme seoul256
+"silent! colorscheme summerfruit256
 
 if !isdirectory("$HOME.'/.vim/tmp'") | silent! call mkdir ($HOME.'/.vim/tmp', 'p') | endif
 if !isdirectory("$HOME.'/.vim/bkp'") | silent! call mkdir ($HOME.'/.vim/bkp', 'p') | endif
@@ -54,9 +58,9 @@ set mouse=a                         "Enable the use of the mouse. a=enabled for 
 set pastetoggle=<F10>               "enable paste mode, everything inserted literally
 set clipboard^=unnamed
 set smartindent                     "Do smart autoindenting when starting a new line.
-set expandtab                       "In Insert mode: Replace <Tab> per space.
-set shiftwidth=2                    "Number of spaces to use for each step of (auto)indent.
-set tabstop=2                       "Number of spaces that a <Tab> in the file counts for.
+set expandtab                       "In Insert mode while using <Tab>, in Normal mode while (auto) intending or using >, replace tab by space
+set tabstop=2                       "Number of spaces that a <Tab> in the file counts for (while displaying Tab)
+set shiftwidth=2                    "Number of spaces to use for each step of (auto)indent or when using >.
 set softtabstop=2                   "Number of spaces that a <Tab> counts for while performing editing operations, like inserting a <Tab> or using <BS>.
 set foldmethod=indent
 set foldlevel=99
@@ -67,6 +71,12 @@ set showtabline=2
 set backup                          "Make a backup before overwriting a file.
 set undofile
 set wildmode=longest:list,full
+set formatoptions-=t
+
+"set regexpengine=1
+"set synmaxcol=200
+"set noshowcmd
+
 if &runtimepath !~'lightline' | set statusline=\ %n\ %F\ %m\ %r\ [%{&ff}]\ %y\ %=%5l/%L\ (%p%\%)\ %4v\ 0x%02B\ | endif
 
 
@@ -79,6 +89,7 @@ nnoremap <silent><leader>f :NERDTreeToggle<cr>
 nnoremap <silent><leader>F :Lexplore<cr>
 nnoremap <silent><leader>= :ALEFix<cr>
 nnoremap <silent><leader><space> za
+nnoremap <silent>; :Files<cr>
 nnoremap <silent>1 :1b<CR>
 nnoremap <silent>2 :2b<CR>
 nnoremap <silent>3 :3b<CR>
@@ -100,11 +111,14 @@ if has("autocmd")
   au InsertLeave * set nocursorline
   au FileType python set textwidth=79
   au FileType python set colorcolumn=80
+  au FileType java set shiftwidth=4
+  au FileType java set tabstop=4
+  au FileType java set softtabstop=4
 endif
 
 let g:python_highlight_all = 1
 let b:ale_fixers = {'python': ['yapf']}
-let g:ale_python_flake8_options = '--ignore=E125,E305'
+let g:ale_python_flake8_options = '--ignore=E501'
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4

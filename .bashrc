@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 [ -z "$PS1" ] && return
 
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
@@ -10,9 +11,8 @@ if [ ! -d ~/.vim/bkp ] || [ ! -d ~/.vim/tmp ]; then
   mkdir -p .vim/{tmp,bkp}
 fi
 
-if [ -f ~/.bashrc.nso ]; then
-  . ~/.bashrc.nso
-fi
+[ -f ~/.bashrc.nso ] && source ~/.bashrc.nso
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 HISTCONTROL=ignoreboth:erasedups
 HISTTIMEFORMAT="[%F - %T] "
@@ -52,10 +52,12 @@ alias rsync='rsync -hP'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .....='cd ../../../..'
 alias mtr='sudo mtr'
-alias pg='ping 8.8.8.8'
+alias tailf='tail -f'
 alias refresh='source ~/.bashrc'
-alias eagle-eye='docker run -i -t -p 8080:8080 containers.cisco.com/adt_emear/epn-eagle-eye'
+alias netsim-rekey='find . -path *rsa_key -delete -exec ssh-keygen -t rsa -N "" -m PEM -f {} \;'
+[ -x "$(command -v bat)"  ] && alias cat='bat'
 
 NONE="\[\e[0m\]"    # unsets color to term's fg color
 R="\[\e[0;31m\]"    # red
@@ -75,7 +77,6 @@ esac
 export PAGER=most
 export VISUAL=vim
 export EDITOR="$VISUAL"
-
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export AXIS2_HOME="/Users/lvirot/Downloads/axis2-1.7.9"
 export PATH="$AXIS2_HOME/bin:$PATH"
@@ -84,5 +85,21 @@ export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/curl/bin:$PATH"
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 export PATH="/usr/local/opt/sqlite/bin:$PATH"
+export PATH="/usr/local/opt/gettext/bin:$PATH"
+export PATH="/usr/local/opt/libxml2/bin:$PATH"
+export PATH="/Users/lvirot/Repos/github.com/origin/cmd/oc:$PATH"
+export LANG=en_US.UTF-8
+export LC_ALL=$LANG
+export FZF_TMUX=1
+export BAT_PAGER="less"
+export FZF_DEFAULT_OPTS="--preview 'bat --color always {}' --preview-window=right:60%"
+export LDFLAGS="-L/usr/local/opt/libxml2/lib"
+export CPPFLAGS="-I/usr/local/opt/libxml2/include"
+export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
 
-alias netsim-rekey='find . -path *rsa_key -delete -exec ssh-keygen -t rsa -N "" -m PEM -f {} \;'
+alias zext='ssh cisco_lvirot@ext-dev-a.bastions.ovh.net -p222 -t -- '
+alias zdevpub='zext realm_cisco@pub-dev.bastions.ovh.net -t -- '
+alias nso-ovh='zdevpub ubuntu@51.68.90.238'
+
+
+alias ipython-nso='ipython -i ~/nso.py'
