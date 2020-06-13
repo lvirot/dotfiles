@@ -2,9 +2,10 @@ set nocompatible
 
 if !empty(glob("~/.vim/autoload/plug.vim"))
   call plug#begin('~/.vim/plugged')
-    Plug 'w0rp/ale'
-    Plug 'mengelbrecht/lightline-bufferline'
     Plug 'critiqjo/vim-bufferline'
+    Plug 'dense-analysis/ale'
+    Plug 'mengelbrecht/lightline-bufferline'
+    "Plug 'bling/vim-bufferline'
     Plug 'itchyny/lightline.vim'
     Plug 'tpope/vim-fugitive'
     Plug '/usr/local/opt/fzf'
@@ -15,7 +16,7 @@ if !empty(glob("~/.vim/autoload/plug.vim"))
     Plug 'jiangmiao/auto-pairs'
     Plug 'nathanalderson/yang.vim', { 'for': 'yang' }
     Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle' }
-    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
     Plug 'will133/vim-dirdiff'
     Plug 'airblade/vim-gitgutter'
     Plug 'terryma/vim-multiple-cursors'
@@ -72,6 +73,11 @@ set backup                          "Make a backup before overwriting a file.
 set undofile
 set wildmode=longest:list,full
 set formatoptions-=t
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+  end
 
 "set regexpengine=1
 "set synmaxcol=200
@@ -99,7 +105,7 @@ nnoremap <silent>6 :6b<CR>
 nnoremap <silent>7 :7b<CR>
 nnoremap <silent>8 :8b<CR>
 nnoremap <silent>9 :9b<CR>
-nnoremap <silent>q :bd<cr>
+"nnoremap <silent>q :bd<cr>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
@@ -109,11 +115,13 @@ if has("autocmd")
   au BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   au InsertEnter * set cursorline
   au InsertLeave * set nocursorline
-  au FileType python set textwidth=79
-  au FileType python set colorcolumn=80
-  au FileType java set shiftwidth=4
-  au FileType java set tabstop=4
-  au FileType java set softtabstop=4
+  au FileType python setlocal textwidth=79
+  au FileType python setlocal colorcolumn=80
+  au FileType java setlocal shiftwidth=4
+  au FileType java setlocal tabstop=4
+  au FileType java setlocal softtabstop=4
+  au FileType java setlocal noexpandtab
+  au FileType xml setlocal expandtab
 endif
 
 let g:python_highlight_all = 1

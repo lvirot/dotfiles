@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 [ -z "$PS1" ] && return
 
-if [ -f /usr/local/share/bash-completion/bash_completion ]; then
-  . /usr/local/share/bash-completion/bash_completion
-elif [ -f /usr/share/bash-completion/bash_completion ]; then
-  . /usr/share/bash-completion/bash_completion
-fi
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -r "/usr/share/bash-completion/bash_completion" ]] && . "/usr/share/bash-completion/bash_completion"
 
 if [ ! -d ~/.vim/bkp ] || [ ! -d ~/.vim/tmp ]; then
   mkdir -p .vim/{tmp,bkp}
@@ -79,27 +76,33 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export AXIS2_HOME="/Users/lvirot/Downloads/axis2-1.7.9"
+export PATH="~/.local/bin:$PATH"
 export PATH="$AXIS2_HOME/bin:$PATH"
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
-export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/curl/bin:$PATH"
-export PATH="/usr/local/opt/openssl/bin:$PATH"
-export PATH="/usr/local/opt/sqlite/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export PATH="/usr/local/opt/gettext/bin:$PATH"
+export PATH="/usr/local/opt/sqlite/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/libpcap/bin:$PATH"
 export PATH="/usr/local/opt/libxml2/bin:$PATH"
-export PATH="/Users/lvirot/Repos/github.com/origin/cmd/oc:$PATH"
+#export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+
 export LANG=en_US.UTF-8
 export LC_ALL=$LANG
 export FZF_TMUX=1
-export BAT_PAGER="less"
+export BAT_PAGER="less -R"
 export FZF_DEFAULT_OPTS="--preview 'bat --color always {}' --preview-window=right:60%"
-export LDFLAGS="-L/usr/local/opt/libxml2/lib"
-export CPPFLAGS="-I/usr/local/opt/libxml2/include"
-export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
-
-alias zext='ssh cisco_lvirot@ext-dev-a.bastions.ovh.net -p222 -t -- '
-alias zdevpub='zext realm_cisco@pub-dev.bastions.ovh.net -t -- '
-alias nso-ovh='zdevpub ubuntu@51.68.90.238'
-
 
 alias ipython-nso='ipython -i ~/nso.py'
+
+#export SSLKEYLOGFILE=~/.ssl-key.log
+alias vpn="tmux new-session -A -s vpn \; send-keys 'source ~/venv/openconnect/bin/activate; openconnect-sso -s ams-vpn-cluster.cisco.com/ssl -- -s /usr/local/bin/split-script' C-m\;"
