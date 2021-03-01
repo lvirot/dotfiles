@@ -1,11 +1,13 @@
 set nocompatible
 
+" required for plugins:
+" pip install yapf flake8
+" brew install ctags
 if !empty(glob("~/.vim/autoload/plug.vim"))
   call plug#begin('~/.vim/plugged')
     Plug 'critiqjo/vim-bufferline'
     Plug 'dense-analysis/ale'
     Plug 'mengelbrecht/lightline-bufferline'
-    "Plug 'bling/vim-bufferline'
     Plug 'itchyny/lightline.vim'
     Plug 'tpope/vim-fugitive'
     Plug '/usr/local/opt/fzf'
@@ -17,16 +19,18 @@ if !empty(glob("~/.vim/autoload/plug.vim"))
     Plug 'nathanalderson/yang.vim', { 'for': 'yang' }
     Plug 'majutsushi/tagbar', { 'on':  'TagbarToggle' }
     Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-    Plug 'will133/vim-dirdiff'
+    "Plug 'will133/vim-dirdiff'
     Plug 'airblade/vim-gitgutter'
-    Plug 'terryma/vim-multiple-cursors'
+    "Plug 'terryma/vim-multiple-cursors'
+    Plug 'jlanzarotta/bufexplorer'
+    Plug 'ConradIrwin/vim-bracketed-paste'
   call plug#end()
 endif
 
 filetype plugin indent on
 
 syntax on
-set background=light
+set background=dark
 silent! colorscheme PaperColor
 "silent! colorscheme seoul256
 "silent! colorscheme summerfruit256
@@ -77,7 +81,7 @@ if has("mouse_sgr")
     set ttymouse=sgr
 else
     set ttymouse=xterm2
-  end
+end
 
 "set regexpengine=1
 "set synmaxcol=200
@@ -106,9 +110,12 @@ nnoremap <silent>7 :7b<CR>
 nnoremap <silent>8 :8b<CR>
 nnoremap <silent>9 :9b<CR>
 "nnoremap <silent>q :bd<cr>
+nnoremap <F7> :update<CR>:make<CR>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+inoremap <expr> <ScrollWheelUp> pumvisible() ? "<Up>" : "<Esc><ScrollWheelUp>"
+inoremap <expr> <ScrollWheelDown> pumvisible() ? "<Down>" : "<Esc><ScrollWheelDown>"
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -122,10 +129,11 @@ if has("autocmd")
   au FileType java setlocal softtabstop=4
   au FileType java setlocal noexpandtab
   au FileType xml setlocal expandtab
+  au FileType yang setlocal makeprg=make\ -sC\ %:h/..\ clean\ all
 endif
 
 let g:python_highlight_all = 1
-let b:ale_fixers = {'python': ['yapf']}
+let g:ale_fixers = {'python': ['yapf']}
 let g:ale_python_flake8_options = '--ignore=E501'
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -141,3 +149,6 @@ if &runtimepath =~ 'bufferline' | let g:lightline.component = {'lineinfo': '%l/%
 let g:lightline.component_function = {'gitbranch': 'fugitive#head',}
 let g:lightline.separator = {'left': '', 'right': '' }
 let g:lightline.subseparator = {'left': '', 'right': ''}
+let g:completor_python_binary = '~/venv/jedi/bin/python'
+let g:fzf_layout = { 'down': '50%'  }
+set splitbelow
